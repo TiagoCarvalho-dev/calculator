@@ -1,0 +1,49 @@
+body {
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 20px;
+  padding: 0;
+}
+
+#calculatorBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+  width: 500px;
+  height: 800px;
+  background-color: blue;
+}
+
+#brandContainer {
+  display: flex;
+  background-color: lightgreen;
+}
+
+#brandContainer > p {
+  flex-grow: 1;
+}
+
+#display {
+  background-color: lightblue;
+}
+
+#leftColumnButtons {
+  border: solid 2px green;
+}
+
+#secondaryButtons {
+  background-color: yellow;
+}
+
+#numberButtons {
+  background-color: purple;
+}
+
+#operatorButtons {
+  background-color: red;
+}
