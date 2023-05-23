@@ -1,6 +1,23 @@
 let number1;
 let number2;
 let operator;
+let displayValue = '';
+let activeOperation = [];
+
+document.getElementById('oneButton').addEventListener('click', () => handleButtonEvents(1));
+document.getElementById('twoButton').addEventListener('click', () => handleButtonEvents(2));
+document.getElementById('addButton').addEventListener('click', () => handleButtonEvents('+'));
+
+function handleButtonEvents(value) {
+  changeDisplayValue(value);
+  activeOperation.push(value);
+}
+
+function changeDisplayValue(value) {
+  displayValue += value;
+  document.getElementById('displayScreen').textContent = displayValue;
+  console.log(displayValue);
+}
 
 function operate(number1, number2, operator) {
   switch (operator) {
@@ -20,7 +37,6 @@ function operate(number1, number2, operator) {
       percentage(number1, number2);
       break;
   }
-
 }
 
 function addition(a, b) {
