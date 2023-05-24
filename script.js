@@ -2,24 +2,37 @@ let number1;
 let number2;
 let operator;
 let displayValue = '';
-let activeOperation = [];
+let result = 0;
 
-document.getElementById('oneButton').addEventListener('click', () => handleButtonEvents(1));
-document.getElementById('twoButton').addEventListener('click', () => handleButtonEvents(2));
-document.getElementById('addButton').addEventListener('click', () => handleButtonEvents('+'));
+document.getElementById('oneButton').addEventListener('click', () => changeDisplayValue(1));
+document.getElementById('twoButton').addEventListener('click', () => changeDisplayValue(2));
+document.getElementById('addButton').addEventListener('click', () => handleOperatorsEvents('+'));
+document.getElementById('equalsButton').addEventListener('click', () => displayResult('='));
 
-function handleButtonEvents(value) {
-  changeDisplayValue(value);
-  activeOperation.push(value);
+function handleOperatorsEvents(newOperator) {
+  if(number1 === undefined) {
+    number1 = +displayValue;
+    operator = newOperator;
+    displayValue = '';
+  } else {
+    number2 = +displayValue;
+    operate(newOperator);
+    displayValue = '';
+    showResult();
+  }
 }
 
 function changeDisplayValue(value) {
   displayValue += value;
   document.getElementById('displayScreen').textContent = displayValue;
-  console.log(displayValue);
 }
 
-function operate(number1, number2, operator) {
+function showResult() {
+  changeDisplayValue(result);
+  displayValue = '';
+}
+
+function operate(operator) {
   switch (operator) {
     case '+':
       addition(number1, number2);
@@ -40,7 +53,7 @@ function operate(number1, number2, operator) {
 }
 
 function addition(a, b) {
-  return a + b;
+  return result = a + b;
 }
 
 function subtraction(a, b) {
