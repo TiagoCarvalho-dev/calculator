@@ -37,7 +37,6 @@ function handleButtonClicks(buttonValue) {
         changeNumbersValue('number2', buttonValue);
         calculateResult(operator1);
       }
-      break;
   }
 }
 
@@ -45,12 +44,11 @@ function changeNumbersValue(numberToBeChanged, buttonValue) {
   if (numberToBeChanged === 'number1') {
     number1 = +displayValue;
     operator1 = buttonValue;
-    displayValue = '';
   } else {
     number2 = +displayValue;
     operator2 = buttonValue;
-    displayValue = '';
   }
+  displayValue = '';
   toggleDotButtonStatus('active');
 }
 
@@ -61,11 +59,10 @@ function changeDisplayValue(value) {
 
 function calculateResult(operator) {
   operate(operator);
-  showResult(result);
+  endResult(result);
 }
 
-function showResult(result) {
-  displayValue = '';
+function endResult(result) {
   changeDisplayValue(result);
   displayValue = '';
   number1 = result;
@@ -78,8 +75,8 @@ function clearAllData() {
   number1 = undefined;
   number2 = undefined;
   operator1 = undefined;
-  result = 0;
-  toggleDotButtonStatus('active');
+  operator2 = undefined;
+  result = undefined;
 }
 
 function clearDisplayStatus() {
@@ -109,7 +106,6 @@ function operate(operator) {
       break;
     case '%':
       percentage(number1, number2, operator1);
-      break;
   }
 }
 
