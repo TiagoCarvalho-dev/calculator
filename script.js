@@ -1,11 +1,12 @@
 let number1;
 let number2;
-let operator;
+let operator1;
+let operator2;
 let displayValue = '';
-let result = 0;
+let result;
 
 // FIXES:
-// FIX %, /, X, = AND . BUTTONS
+// FIX % AND . BUTTONS
 
 document.querySelectorAll('#calculatorButtons button').forEach(node => {
   node.addEventListener('click', () => handleButtonClicks(node.textContent));
@@ -19,21 +20,16 @@ function handleButtonClicks(buttonValue) {
     case (buttonValue === 'AC' || buttonValue === 'C'):
       buttonValue === 'AC' ? clearAllData() : clearDisplayStatus();
       break;
-    case (buttonValue === '='):
-      calculateResult(operator);
-      break;
     default:
-      if(number1 === undefined) {
+      if(!number1) {
         number1 = +displayValue;
-        operator = buttonValue;
+        operator1 = buttonValue;
         displayValue = '';
-      } else if (!number1 === undefined && !operator === undefined) {
-        number2 = number1;
-        console.log(number1, number2, operator, result);
-        calculateResult(buttonValue);
       } else {
-        console.log(number1, number2, operator, result);
-        calculateResult(buttonValue);
+        number2 = +displayValue;
+        operator2 = buttonValue;
+        displayValue = '';
+        calculateResult(operator1);
       }
       break;
   }
@@ -45,7 +41,6 @@ function changeDisplayValue(value) {
 }
 
 function calculateResult(operator) {
-  number2 = +displayValue;
   operate(operator);
   showResult(result);
 }
@@ -56,15 +51,15 @@ function showResult(result) {
   displayValue = '';
   number1 = result;
   number2 = undefined;
-  operator = undefined;
+  operator1 = operator2;
 }
 
 function clearAllData() {
-    clearDisplayStatus();
-    number1 = undefined;
-    number2 = undefined;
-    operator = undefined;
-    result = 0;
+  clearDisplayStatus();
+  number1 = undefined;
+  number2 = undefined;
+  operator1 = undefined;
+  result = 0;
 }
 
 function clearDisplayStatus() {
@@ -83,14 +78,11 @@ function operate(operator) {
     case 'x':
       multiplication(number1, number2);
       break;
-    case '/':
+    case '÷':
       division(number1, number2);
       break;
     case '%':
-      percentage(number1, number2);
-      break;
-    case '=':
-      calculateResult(operator);
+      percentage(number1, number2, operator1);
       break;
   }
 }
@@ -111,6 +103,6 @@ function division(a, b) {
   return result = a / b;
 }
 
-function percentage(a, b) {
+function percentage(a, b, operator) {
   return result = a + (a * b) / 100;
 }
