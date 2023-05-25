@@ -26,7 +26,7 @@ function handleButtonClicks(buttonValue) {
       calculateResult(operator2);
       break;
     default:
-      if (!number1) {
+      if (number1 === undefined) {
         number1 = +displayValue;
         operator1 = buttonValue;
         displayValue = '';
@@ -114,6 +114,7 @@ function multiplication(a, b) {
 }
 
 function division(a, b) {
+  if (b === 0) return result = undefined;
   return result = a / b;
 }
 
