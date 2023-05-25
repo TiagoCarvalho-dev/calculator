@@ -11,43 +11,47 @@ document.querySelectorAll('#calculatorButtons button').forEach(node => {
 
 function handleButtonClicks(buttonValue) {
   switch (true) {
-    case (Number.isInteger(+buttonValue) || buttonValue === '.'):
+    case (Number.isInteger(+buttonValue)):
       changeDisplayValue(buttonValue);
-      if (buttonValue === '.') toggleDotButtonStatus('inactive');
+      break;
+    case (buttonValue === '.'):
+      changeDisplayValue(buttonValue);
+      toggleDotButtonStatus('inactive');
       break;
     case (buttonValue === 'AC' || buttonValue === 'C'):
       buttonValue === 'AC' ? clearAllData() : clearDisplayStatus();
       break;
     case (buttonValue === '%'):
-      number2 = +displayValue;
-      operator2 = buttonValue;
-      displayValue = '';
-      toggleDotButtonStatus('active');
+      changeNumbersValue('number2', buttonValue);  
       calculateResult(operator2);
       break;
     case (buttonValue === '='):
       if (number1 === undefined) break;
-      number2 = +displayValue;
-      operator2 = buttonValue;
-      displayValue = '';
-      toggleDotButtonStatus('active');
+      changeNumbersValue('number2', buttonValue);
       calculateResult(operator1);
       break;
     default:
       if (number1 === undefined) {
-        number1 = +displayValue;
-        operator1 = buttonValue;
-        displayValue = '';
-        toggleDotButtonStatus('active');
+        changeNumbersValue('number1', buttonValue);
       } else {
-        number2 = +displayValue;
-        operator2 = buttonValue;
-        displayValue = '';
-        toggleDotButtonStatus('active');
+        changeNumbersValue('number2', buttonValue);
         calculateResult(operator1);
       }
       break;
   }
+}
+
+function changeNumbersValue(numberToBeChanged, buttonValue) {
+  if (numberToBeChanged === 'number1') {
+    number1 = +displayValue;
+    operator1 = buttonValue;
+    displayValue = '';
+  } else {
+    number2 = +displayValue;
+    operator2 = buttonValue;
+    displayValue = '';
+  }
+  toggleDotButtonStatus('active');
 }
 
 function changeDisplayValue(value) {
