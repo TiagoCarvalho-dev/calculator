@@ -25,6 +25,14 @@ function handleButtonClicks(buttonValue) {
       toggleDotButtonStatus('active');
       calculateResult(operator2);
       break;
+    case (buttonValue === '='):
+      if (number1 === undefined) break;
+      number2 = +displayValue;
+      operator2 = buttonValue;
+      displayValue = '';
+      toggleDotButtonStatus('active');
+      calculateResult(operator1);
+      break;
     default:
       if (number1 === undefined) {
         number1 = +displayValue;
