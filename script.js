@@ -5,9 +5,6 @@ let operator2;
 let displayValue = '';
 let result;
 
-// FIXES:
-// FIX % BUTTONS
-
 document.querySelectorAll('#calculatorButtons button').forEach(node => {
   node.addEventListener('click', () => handleButtonClicks(node.textContent));
 });
@@ -21,8 +18,15 @@ function handleButtonClicks(buttonValue) {
     case (buttonValue === 'AC' || buttonValue === 'C'):
       buttonValue === 'AC' ? clearAllData() : clearDisplayStatus();
       break;
+    case (buttonValue === '%'):
+      number2 = +displayValue;
+      operator2 = buttonValue;
+      displayValue = '';
+      toggleDotButtonStatus('active');
+      calculateResult(operator2);
+      break;
     default:
-      if(!number1) {
+      if (!number1) {
         number1 = +displayValue;
         operator1 = buttonValue;
         displayValue = '';
@@ -114,5 +118,8 @@ function division(a, b) {
 }
 
 function percentage(a, b, operator) {
-  return result = a + (a * b) / 100;
+  if (operator === '+') return result = a + (a * b) / 100;
+  if (operator === '-') return result = a - (a * b) / 100;
+  if (operator === 'x') return result = a * (a * b) / 100;
+  if (operator === '÷') return result = a / (a * b) / 100;
 }
