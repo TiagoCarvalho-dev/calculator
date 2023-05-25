@@ -6,7 +6,7 @@ let displayValue = '';
 let result;
 
 // FIXES:
-// FIX % AND . BUTTONS
+// FIX % BUTTONS
 
 document.querySelectorAll('#calculatorButtons button').forEach(node => {
   node.addEventListener('click', () => handleButtonClicks(node.textContent));
@@ -16,6 +16,7 @@ function handleButtonClicks(buttonValue) {
   switch (true) {
     case (Number.isInteger(+buttonValue) || buttonValue === '.'):
       changeDisplayValue(buttonValue);
+      if (buttonValue === '.') toggleDotButtonStatus('inactive');
       break;
     case (buttonValue === 'AC' || buttonValue === 'C'):
       buttonValue === 'AC' ? clearAllData() : clearDisplayStatus();
@@ -25,10 +26,12 @@ function handleButtonClicks(buttonValue) {
         number1 = +displayValue;
         operator1 = buttonValue;
         displayValue = '';
+        toggleDotButtonStatus('active');
       } else {
         number2 = +displayValue;
         operator2 = buttonValue;
         displayValue = '';
+        toggleDotButtonStatus('active');
         calculateResult(operator1);
       }
       break;
@@ -60,11 +63,18 @@ function clearAllData() {
   number2 = undefined;
   operator1 = undefined;
   result = 0;
+  toggleDotButtonStatus('active');
 }
 
 function clearDisplayStatus() {
   displayValue = '';
   document.getElementById('displayScreen').textContent = 0;
+  toggleDotButtonStatus('active');
+}
+
+function toggleDotButtonStatus(status) {
+  status === 'active' ? document.getElementById('dotButton').disabled = false
+                      : document.getElementById('dotButton').disabled = true;
 }
 
 function operate(operator) {
