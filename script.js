@@ -19,7 +19,7 @@ function handleButtonClicks(buttonValue) {
     changeMainDisplayValue(result);
       break;
     case (buttonValue === 'AC'):
-      operationHistoryValue === '' ? clearDisplayStatus() : clearAllData();
+      clearAllData();
       break;
     case (buttonValue === 'C'):
       eraseLastInput();
@@ -53,16 +53,12 @@ function changeOperationHistoryValue() {
 }
 
 function clearAllData() {
-  clearDisplayStatus();
+  mainDisplayValue = '';
+  operationHistoryValue = '';
   inputValue = [];
   outputValue = [];
   operatorStack = [];
   result = undefined;
-}
-
-function clearDisplayStatus() {
-  mainDisplayValue = '';
-  operationHistoryValue = '';
   mainDisplayScreen.textContent = 0;
   operationHistoryScreen.textContent = 0;
   toggleOperatorButtonStatus('active');
@@ -71,7 +67,9 @@ function clearDisplayStatus() {
 function eraseLastInput() {
   if ((mainDisplayValue.length <= 1) ||
       (mainDisplayValue.endsWith(' ') && mainDisplayValue.length === 2)) {
-        clearDisplayStatus();
+        mainDisplayValue = '';
+        mainDisplayScreen.textContent = 0;
+        toggleOperatorButtonStatus('active');
   } else if (mainDisplayValue.endsWith(' ')) {
     mainDisplayValue = mainDisplayValue.substring(0, mainDisplayValue.length - 2);
     mainDisplayScreen.textContent = mainDisplayValue;
