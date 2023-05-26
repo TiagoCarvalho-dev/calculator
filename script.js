@@ -17,19 +17,43 @@ function handleButtonClicks(buttonValue) {
     case (buttonValue === 'CE'):
       operationHistoryValue === '' ? clearDisplayStatus() : clearAllData();
       break;
-    default:
-      if (buttonValue === '.') {
+    case (!Number.isInteger(+buttonValue) && (mainDisplayValue.endsWith(' ') || mainDisplayValue.endsWith(' π '))):
+      if (buttonValue === 'π') {
         changeDisplayValue(buttonValue);
-        toggleDotButtonStatus('inactive');
+      }
+      break;
+    default:
+      if (!Number.isInteger(+buttonValue)) {
+        if (mainDisplayValue === '' &&
+            (!buttonValue === '&#40' ||
+            !buttonValue === '&#41'  ||
+            !buttonValue === 'π'     ||
+            !buttonValue === 'log'   ||
+            !buttonValue === '√'     ||
+            !buttonValue === '-'     ||
+            !buttonValue === '.')) {
+              return;
+            }
+        changeDisplayValue(buttonValue);
+        // toggleOperatorButtonStatus('active');
+        // if (buttonValue === '&#40' || buttonValue === '&#41') {
+        //   toggleOperatorButtonStatus('inactive', buttonValue);
+        // }
       } else {
         changeDisplayValue(buttonValue);
+        toggleOperatorButtonStatus('active');
       }
   }
 }
 
 function changeDisplayValue(value) {
-  mainDisplayValue += value;
-  document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
+  if (Number.isInteger(+value) || value === '.') {
+    mainDisplayValue += value;
+    document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
+  } else {
+    mainDisplayValue += ` ${value} `;
+    document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
+  }
 }
 
 function clearAllData() {
@@ -45,12 +69,17 @@ function clearDisplayStatus() {
   operationHistoryValue = '';
   document.getElementById('mainDisplayScreen').textContent = 0;
   document.getElementById('operationHistoryScreen').textContent = 0;
-  toggleDotButtonStatus('active');
+  toggleOperatorButtonStatus('active');
 }
 
-function toggleDotButtonStatus(status) {
-  status === 'active' ? document.getElementById('dotButton').disabled = false
-                      : document.getElementById('dotButton').disabled = true;
+function toggleOperatorButtonStatus(status, buttonValue) {
+  if (status === 'active') {
+    document.querySelectorAll('#calculatorButtons button').forEach(node => {
+      node.disabled = false;
+    });
+  } else {
+    document.getElementById(buttonValue + 'Button').disabled = true;
+  }
 }
 
 function operate(operator) {
