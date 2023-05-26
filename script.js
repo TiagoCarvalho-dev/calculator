@@ -4,6 +4,8 @@ const operatorStack = [];
 let result;
 let mainDisplayValue = '';
 let operationHistoryValue = '';
+const mainDisplayScreen = document.getElementById('mainDisplayScreen');
+const operationHistoryScreen = document.getElementById('operationHistoryScreen');
 
 document.querySelectorAll('#calculatorButtons button').forEach(node => {
   node.addEventListener('click', () => handleButtonClicks(node.textContent));
@@ -12,7 +14,9 @@ document.querySelectorAll('#calculatorButtons button').forEach(node => {
 function handleButtonClicks(buttonValue) {
   switch (true) {
     case (buttonValue === '='):
-      operate();
+    changeOperationHistoryValue()  
+    operate();
+    changeMainDisplayValue(result);
       break;
     case (buttonValue === 'AC'):
       operationHistoryValue === '' ? clearDisplayStatus() : clearAllData();
@@ -22,21 +26,30 @@ function handleButtonClicks(buttonValue) {
       break;
     default:
       if (!Number.isInteger(+buttonValue)) {
-        changeDisplayValue(buttonValue);
+        changeMainDisplayValue(buttonValue);
       } else {
-        changeDisplayValue(buttonValue);
+        changeMainDisplayValue(buttonValue);
       }
   }
 }
 
-function changeDisplayValue(value) {
+function changeMainDisplayValue(value) {
   if (Number.isInteger(+value) || value === '.') {
     mainDisplayValue += value;
-    document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
+    mainDisplayScreen.textContent = mainDisplayValue;
   } else {
-    mainDisplayValue += ` ${value} `;
-    document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
+    if (mainDisplayValue.length === 0 || mainDisplayValue.endsWith(' ')) {
+      mainDisplayValue += `${value} `;
+      mainDisplayScreen.textContent = mainDisplayValue;
+    } else {
+      mainDisplayValue += ` ${value} `;
+      mainDisplayScreen.textContent = mainDisplayValue;
+    }
   }
+}
+
+function changeOperationHistoryValue() {
+  operationHistoryScreen.textContent = mainDisplayValue;
 }
 
 function clearAllData() {
@@ -50,20 +63,21 @@ function clearAllData() {
 function clearDisplayStatus() {
   mainDisplayValue = '';
   operationHistoryValue = '';
-  document.getElementById('mainDisplayScreen').textContent = 0;
-  document.getElementById('operationHistoryScreen').textContent = 0;
+  mainDisplayScreen.textContent = 0;
+  operationHistoryScreen.textContent = 0;
   toggleOperatorButtonStatus('active');
 }
 
-function eraseLastInput() { // NEEDS TO FIX ERASING FIRST CHARACTER = OPERATOR
-  if (mainDisplayValue.length <= 1) {
-    clearDisplayStatus();
+function eraseLastInput() {
+  if ((mainDisplayValue.length <= 1) ||
+      (mainDisplayValue.endsWith(' ') && mainDisplayValue.length === 2)) {
+        clearDisplayStatus();
   } else if (mainDisplayValue.endsWith(' ')) {
-    mainDisplayValue = mainDisplayValue.substring(0, mainDisplayValue.length - 3);
-    document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
+    mainDisplayValue = mainDisplayValue.substring(0, mainDisplayValue.length - 2);
+    mainDisplayScreen.textContent = mainDisplayValue;
   } else {
     mainDisplayValue = mainDisplayValue.substring(0, mainDisplayValue.length - 1);
-    document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
+    mainDisplayScreen.textContent = mainDisplayValue;
   }
 }
 
