@@ -1,9 +1,9 @@
-let number1;
-let number2;
-let operator1;
-let operator2;
-let displayValue = '';
+const inputValue = [];
+const outputValue = [];
+const operatorStack = [];
 let result;
+let mainDisplayValue = '';
+let operationHistoryValue = '';
 
 document.querySelectorAll('#calculatorButtons button').forEach(node => {
   node.addEventListener('click', () => handleButtonClicks(node.textContent));
@@ -11,77 +11,40 @@ document.querySelectorAll('#calculatorButtons button').forEach(node => {
 
 function handleButtonClicks(buttonValue) {
   switch (true) {
-    case (Number.isInteger(+buttonValue)):
-      changeDisplayValue(buttonValue);
-      break;
-    case (buttonValue === '.'):
-      changeDisplayValue(buttonValue);
-      toggleDotButtonStatus('inactive');
-      break;
-    case (buttonValue === 'AC' || buttonValue === 'C'):
-      buttonValue === 'AC' ? clearAllData() : clearDisplayStatus();
-      break;
-    case (buttonValue === '%'):
-      changeNumbersValue('number2', buttonValue);  
-      calculateResult(operator2);
-      break;
     case (buttonValue === '='):
-      if (number1 === undefined) break;
-      changeNumbersValue('number2', buttonValue);
-      calculateResult(operator1);
+      operate();
+      break;
+    case (buttonValue === 'CE'):
+      operationHistoryValue === '' ? clearDisplayStatus() : clearAllData();
       break;
     default:
-      if (number1 === undefined) {
-        changeNumbersValue('number1', buttonValue);
+      if (buttonValue === '.') {
+        changeDisplayValue(buttonValue);
+        toggleDotButtonStatus('inactive');
       } else {
-        changeNumbersValue('number2', buttonValue);
-        calculateResult(operator1);
+        changeDisplayValue(buttonValue);
       }
   }
 }
 
-function changeNumbersValue(numberToBeChanged, buttonValue) {
-  if (numberToBeChanged === 'number1') {
-    number1 = +displayValue;
-    operator1 = buttonValue;
-  } else {
-    number2 = +displayValue;
-    operator2 = buttonValue;
-  }
-  displayValue = '';
-  toggleDotButtonStatus('active');
-}
-
 function changeDisplayValue(value) {
-  displayValue += value;
-  document.getElementById('displayScreen').textContent = displayValue;
-}
-
-function calculateResult(operator) {
-  operate(operator);
-  endResult(result);
-}
-
-function endResult(result) {
-  changeDisplayValue(result);
-  displayValue = '';
-  number1 = result;
-  number2 = undefined;
-  operator1 = operator2;
+  mainDisplayValue += value;
+  document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
 }
 
 function clearAllData() {
   clearDisplayStatus();
-  number1 = undefined;
-  number2 = undefined;
-  operator1 = undefined;
-  operator2 = undefined;
+  inputValue = [];
+  outputValue = [];
+  operatorStack = [];
   result = undefined;
 }
 
 function clearDisplayStatus() {
-  displayValue = '';
-  document.getElementById('displayScreen').textContent = 0;
+  mainDisplayValue = '';
+  operationHistoryValue = '';
+  document.getElementById('mainDisplayScreen').textContent = 0;
+  document.getElementById('operationHistoryScreen').textContent = 0;
   toggleDotButtonStatus('active');
 }
 
