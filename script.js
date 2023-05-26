@@ -14,34 +14,17 @@ function handleButtonClicks(buttonValue) {
     case (buttonValue === '='):
       operate();
       break;
-    case (buttonValue === 'CE'):
+    case (buttonValue === 'AC'):
       operationHistoryValue === '' ? clearDisplayStatus() : clearAllData();
       break;
-    case (!Number.isInteger(+buttonValue) && (mainDisplayValue.endsWith(' ') || mainDisplayValue.endsWith(' π '))):
-      if (buttonValue === 'π') {
-        changeDisplayValue(buttonValue);
-      }
+    case (buttonValue === 'C'):
+      eraseLastInput();
       break;
     default:
       if (!Number.isInteger(+buttonValue)) {
-        if (mainDisplayValue === '' &&
-            (!buttonValue === '&#40' ||
-            !buttonValue === '&#41'  ||
-            !buttonValue === 'π'     ||
-            !buttonValue === 'log'   ||
-            !buttonValue === '√'     ||
-            !buttonValue === '-'     ||
-            !buttonValue === '.')) {
-              return;
-            }
         changeDisplayValue(buttonValue);
-        // toggleOperatorButtonStatus('active');
-        // if (buttonValue === '&#40' || buttonValue === '&#41') {
-        //   toggleOperatorButtonStatus('inactive', buttonValue);
-        // }
       } else {
         changeDisplayValue(buttonValue);
-        toggleOperatorButtonStatus('active');
       }
   }
 }
@@ -72,6 +55,18 @@ function clearDisplayStatus() {
   toggleOperatorButtonStatus('active');
 }
 
+function eraseLastInput() { // NEEDS TO FIX ERASING FIRST CHARACTER = OPERATOR
+  if (mainDisplayValue.length <= 1) {
+    clearDisplayStatus();
+  } else if (mainDisplayValue.endsWith(' ')) {
+    mainDisplayValue = mainDisplayValue.substring(0, mainDisplayValue.length - 3);
+    document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
+  } else {
+    mainDisplayValue = mainDisplayValue.substring(0, mainDisplayValue.length - 1);
+    document.getElementById('mainDisplayScreen').textContent = mainDisplayValue;
+  }
+}
+
 function toggleOperatorButtonStatus(status, buttonValue) {
   if (status === 'active') {
     document.querySelectorAll('#calculatorButtons button').forEach(node => {
@@ -97,16 +92,13 @@ function operate(operator) {
       division(number1, number2);
       break;
     case '%':
-      percentage(number1, number2, operator1);
+      percentage(number1);
       break;
     case '√':
       squareRoot(number1);
       break;
     case '^':
       power(number1, number2);
-      break;
-    case 'log':
-      logarithm(number1);
   }
 }
 
@@ -127,21 +119,14 @@ function division(a, b) {
   return result = a / b;
 }
 
-function percentage(a, b, operator) {
-  if (operator === '+') return result = a + (a * b) / 100;
-  if (operator === '-') return result = a - (a * b) / 100;
-  if (operator === 'x') return result = a * (a * b) / 100;
-  if (operator === '÷') return result = a / (a * b) / 100;
+function percentage(a) {
+  return result = a / 100;
 }
 
 function squareRoot(a) {
-  return result = Math.sqrt(a);
+  return result = a ** (1 / 2);
 }
 
 function power(a, b) {
-  return result = Math.pow(a, b);
-}
-
-function logarithm(a) {
-  return result = Math.log(a);
+  return result = a ** b;
 }
