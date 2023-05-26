@@ -106,6 +106,15 @@ function operate(operator) {
       break;
     case '%':
       percentage(number1, number2, operator1);
+      break;
+    case '√':
+      squareRoot(number1);
+      break;
+    case '^':
+      power(number1, number2);
+      break;
+    case 'log':
+      logarithm(number1);
   }
 }
 
@@ -131,4 +140,16 @@ function percentage(a, b, operator) {
   if (operator === '-') return result = a - (a * b) / 100;
   if (operator === 'x') return result = a * (a * b) / 100;
   if (operator === '÷') return result = a / (a * b) / 100;
+}
+
+function squareRoot(a) {
+  return result = Math.sqrt(a);
+}
+
+function power(a, b) {
+  return result = Math.pow(a, b);
+}
+
+function logarithm(a) {
+  return result = Math.log(a);
 }
