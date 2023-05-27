@@ -1,4 +1,5 @@
 let equationArray;
+let rpnEquationArray;
 const outputValue = [];
 const operatorStack = [];
 let result;
@@ -16,7 +17,7 @@ function handleButtonClicks(buttonValue) {
     case (buttonValue === '='):
       changeMainDisplayValue(buttonValue);
       changeOperationHistoryValue();
-      calculate(mainDisplayValue);
+      convertToRPN(mainDisplayValue);
       break;
     case (buttonValue === 'AC'):
       clearAllData();
@@ -97,16 +98,60 @@ function toggleOperatorButtonStatus(status, buttonValue) {
   }
 }
 
-function calculate(mainDisplayValue) {
+function convertToRPN(mainDisplayValue) {
   equationArray = `( ${mainDisplayValue} )`.split(' ');
   equationArray.splice(equationArray.length - 2, 1);
 
   for (let index of equationArray) {
-    if (!Number.isInteger(index)) {
+    if (index === '(') {
+      operatorStack.push(index);
+    } else if (Number.isInteger(+index)) {
+      outputValue.push(index);
+    } else if (index === ')') {
+      let i = operatorStack.length - 1;
+      while (operatorStack[i] !== '(') {
+        outputValue.push(operatorStack[i]);
+        operatorStack.pop();
+        i--;
+      }
+      operatorStack.pop();
+    } else if (index === '+' || index === '-') {
+      let j = operatorStack.length - 1;
+      while (operatorStack[j] === '+' ||
+             operatorStack[j] === '-' ||
+             operatorStack[j] === 'x' ||
+             operatorStack[j] === '÷' ||
+             operatorStack[j] === '^' ||
+             operatorStack[j] === '√') {
+        outputValue.push(operatorStack[j]);
+        operatorStack.pop();
+        j--;
+      }
+      operatorStack.push(index);
+    } else if (index === 'x' || index === '÷') {
+      let k = operatorStack.length - 1;
+      while (operatorStack[k] === 'x' ||
+             operatorStack[k] === '÷' ||
+             operatorStack[k] === '^' ||
+             operatorStack[k] === '√') {
+        outputValue.push(operatorStack[k]);
+        operatorStack.pop();
+        k--;
+      }
       operatorStack.push(index);
     } else {
-      outputValue.push(index);
+      let l = operatorStack.length - 1;
+      while (operatorStack[l] === '^' || operatorStack[l] === '√') {
+        outputValue.push(operatorStack[l]);
+        operatorStack.pop();
+        l--;
+      }
+      operatorStack.push(index);
     }
+  }
+  for (let operator of operatorStack) {
+    outputValue.push(operator);
+    operatorStack.pop();
   }
 }
 
