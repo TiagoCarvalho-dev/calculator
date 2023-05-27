@@ -1,4 +1,4 @@
-const inputValue = [];
+let equationArray;
 const outputValue = [];
 const operatorStack = [];
 let result;
@@ -14,9 +14,9 @@ document.querySelectorAll('#calculatorButtons button').forEach(node => {
 function handleButtonClicks(buttonValue) {
   switch (true) {
     case (buttonValue === '='):
-    changeOperationHistoryValue()  
-    operate();
-    changeMainDisplayValue(result);
+      changeMainDisplayValue(buttonValue);
+      changeOperationHistoryValue();
+      calculate(mainDisplayValue);
       break;
     case (buttonValue === 'AC'):
       clearAllData();
@@ -37,6 +37,14 @@ function changeMainDisplayValue(value) {
   if (Number.isInteger(+value) || value === '.') {
     mainDisplayValue += value;
     mainDisplayScreen.textContent = mainDisplayValue;
+  } else if (value === '=') {
+    if (mainDisplayValue.endsWith(' ')) {
+      mainDisplayValue += `${value}`;
+      mainDisplayScreen.textContent = mainDisplayValue;
+    } else {
+      mainDisplayValue += ` ${value}`;
+      mainDisplayScreen.textContent = mainDisplayValue;
+    }
   } else {
     if (mainDisplayValue.length === 0 || mainDisplayValue.endsWith(' ')) {
       mainDisplayValue += `${value} `;
@@ -55,9 +63,9 @@ function changeOperationHistoryValue() {
 function clearAllData() {
   mainDisplayValue = '';
   operationHistoryValue = '';
-  inputValue = [];
-  outputValue = [];
-  operatorStack = [];
+  equationArray = '';
+  outputValue.length = 0;
+  operatorStack.length = 0;
   result = undefined;
   mainDisplayScreen.textContent = 0;
   operationHistoryScreen.textContent = 0;
@@ -86,6 +94,19 @@ function toggleOperatorButtonStatus(status, buttonValue) {
     });
   } else {
     document.getElementById(buttonValue + 'Button').disabled = true;
+  }
+}
+
+function calculate(mainDisplayValue) {
+  equationArray = `( ${mainDisplayValue} )`.split(' ');
+  equationArray.splice(equationArray.length - 2, 1);
+
+  for (let index of equationArray) {
+    if (!Number.isInteger(index)) {
+      operatorStack.push(index);
+    } else {
+      outputValue.push(index);
+    }
   }
 }
 
