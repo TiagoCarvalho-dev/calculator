@@ -1,8 +1,8 @@
 let equationArray;
 let rpnEquationArray;
-const outputValue = [];
+const numberStack = [];
 const operatorStack = [];
-const provisoryNumberHolder = [];
+const finalResultStack = [];
 let operationResult;
 let finalResult;
 let mainDisplayValue = '';
@@ -64,11 +64,15 @@ function changeOperationHistoryValue() {
   operationHistoryScreen.textContent = mainDisplayValue;
 }
 
+function showResults(finalValue) {
+
+}
+
 function clearAllData() {
   mainDisplayValue = '';
   operationHistoryValue = '';
   equationArray = '';
-  outputValue.length = 0;
+  numberStack.length = 0;
   operatorStack.length = 0;
   operationResult = undefined;
   mainDisplayScreen.textContent = 0;
@@ -109,11 +113,11 @@ function convertToRPN(mainDisplayValue) {
     if (index === '(') {
       operatorStack.push(index);
     } else if (Number.isInteger(+index)) {
-      outputValue.push(index);
+      numberStack.push(index);
     } else if (index === ')') {
       let i = operatorStack.length - 1;
       while (operatorStack[i] !== '(') {
-        outputValue.push(operatorStack[i]);
+        numberStack.push(operatorStack[i]);
         operatorStack.pop();
         i--;
       }
@@ -126,7 +130,7 @@ function convertToRPN(mainDisplayValue) {
              operatorStack[j] === '÷' ||
              operatorStack[j] === '^' ||
              operatorStack[j] === '√') {
-        outputValue.push(operatorStack[j]);
+        numberStack.push(operatorStack[j]);
         operatorStack.pop();
         j--;
       }
@@ -137,7 +141,7 @@ function convertToRPN(mainDisplayValue) {
              operatorStack[k] === '÷' ||
              operatorStack[k] === '^' ||
              operatorStack[k] === '√') {
-        outputValue.push(operatorStack[k]);
+        numberStack.push(operatorStack[k]);
         operatorStack.pop();
         k--;
       }
@@ -145,7 +149,7 @@ function convertToRPN(mainDisplayValue) {
     } else {
       let l = operatorStack.length - 1;
       while (operatorStack[l] === '^' || operatorStack[l] === '√') {
-        outputValue.push(operatorStack[l]);
+        numberStack.push(operatorStack[l]);
         operatorStack.pop();
         l--;
       }
@@ -153,30 +157,30 @@ function convertToRPN(mainDisplayValue) {
     }
   }
   for (let operator of operatorStack) {
-    outputValue.push(operator);
+    numberStack.push(operator);
     operatorStack.pop();
   }
-  return rpnEquationArray = outputValue;
+  return rpnEquationArray = numberStack;
 }
 
 function calculateEquation(equationArray) {
   for (let element of equationArray) {
     if (Number.isInteger(+element)) {
-      operatorStack.push(+element);
+      finalResultStack.push(+element);
     } else {
       if (element === '√') {
-        operate(element, operatorStack[operatorStack.length - 1]);
-        operatorStack.push(operationResult);
-        operatorStack.splice(operatorStack.length - 2, 1);
+        operate(element, finalResultStack[finalResultStack.length - 1]);
+        finalResultStack.push(operationResult);
+        finalResultStack.splice(finalResultStack.length - 2, 1);
       } else {
-        operate(element, operatorStack[operatorStack.length - 2], operatorStack[operatorStack.length - 1]);
-        operatorStack.push(operationResult);
-        operatorStack.splice(operatorStack.length - 2, 1);
-        operatorStack.splice(operatorStack.length - 2, 1);
+        operate(element, finalResultStack[finalResultStack.length - 2], finalResultStack[finalResultStack.length - 1]);
+        finalResultStack.push(operationResult);
+        finalResultStack.splice(finalResultStack.length - 2, 1);
+        finalResultStack.splice(finalResultStack.length - 2, 1);
       } 
     }
   }
-  finalResult = operatorStack;
+  finalResult = finalResultStack;
   console.log(finalResult);
 }
 
