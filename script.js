@@ -2,7 +2,9 @@ let equationArray;
 let rpnEquationArray;
 const outputValue = [];
 const operatorStack = [];
-let result;
+const provisoryNumberHolder = [];
+let operationResult;
+let finalResult;
 let mainDisplayValue = '';
 let operationHistoryValue = '';
 const mainDisplayScreen = document.getElementById('mainDisplayScreen');
@@ -18,6 +20,7 @@ function handleButtonClicks(buttonValue) {
       changeMainDisplayValue(buttonValue);
       changeOperationHistoryValue();
       convertToRPN(mainDisplayValue);
+      calculateEquation(rpnEquationArray);
       break;
     case (buttonValue === 'AC'):
       clearAllData();
@@ -67,7 +70,7 @@ function clearAllData() {
   equationArray = '';
   outputValue.length = 0;
   operatorStack.length = 0;
-  result = undefined;
+  operationResult = undefined;
   mainDisplayScreen.textContent = 0;
   operationHistoryScreen.textContent = 0;
   toggleOperatorButtonStatus('active');
@@ -153,51 +156,74 @@ function convertToRPN(mainDisplayValue) {
     outputValue.push(operator);
     operatorStack.pop();
   }
+  return rpnEquationArray = outputValue;
 }
 
-function operate(operator) {
+function calculateEquation(equationArray) {
+  for (let element of equationArray) {
+    if (Number.isInteger(+element)) {
+      operatorStack.push(+element);
+    } else {
+      if (element === '√') {
+        operate(element, operatorStack[operatorStack.length - 1]);
+        operatorStack.push(operationResult);
+        operatorStack.splice(operatorStack.length - 2, 1);
+      } else {
+        operate(element, operatorStack[operatorStack.length - 2], operatorStack[operatorStack.length - 1]);
+        operatorStack.push(operationResult);
+        operatorStack.splice(operatorStack.length - 2, 1);
+        operatorStack.splice(operatorStack.length - 2, 1);
+      } 
+    }
+  }
+  finalResult = operatorStack;
+  console.log(finalResult);
+}
+
+function operate(operator, number1, number2) {
   switch (operator) {
     case '+':
       addition(number1, number2);
-      break;
+      return operationResult;
     case '-':
       subtraction(number1, number2);
-      break;
+      return operationResult;
     case 'x':
       multiplication(number1, number2);
-      break;
+      return operationResult;
     case '÷':
       division(number1, number2);
-      break;
+      return operationResult;
     case '√':
       squareRoot(number1);
-      break;
+      return operationResult;
     case '^':
       power(number1, number2);
+      return operationResult;
   }
 }
 
 function addition(a, b) {
-  return result = a + b;
+  return operationResult = a + b;
 }
 
 function subtraction(a, b) {
-  return result = a - b;
+  return operationResult = a - b;
 }
 
 function multiplication(a, b) {
-  return result = a * b;
+  return operationResult = a * b;
 }
 
 function division(a, b) {
-  if (b === 0) return result = undefined;
-  return result = a / b;
+  if (b === 0) return operationResult = undefined;
+  return operationResult = a / b;
 }
 
 function squareRoot(a) {
-  return result = a ** (1 / 2);
+  return operationResult = a ** (1 / 2);
 }
 
 function power(a, b) {
-  return result = a ** b;
+  return operationResult = a ** b;
 }
