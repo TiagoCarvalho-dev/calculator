@@ -169,9 +169,6 @@ function operate(operator) {
     case '÷':
       division(number1, number2);
       break;
-    case '%':
-      percentage(number1);
-      break;
     case '√':
       squareRoot(number1);
       break;
@@ -195,10 +192,6 @@ function multiplication(a, b) {
 function division(a, b) {
   if (b === 0) return result = undefined;
   return result = a / b;
-}
-
-function percentage(a) {
-  return result = a / 100;
 }
 
 function squareRoot(a) {
