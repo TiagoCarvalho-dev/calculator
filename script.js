@@ -47,6 +47,14 @@ function changeMainDisplayValue(value) {
   if (Number(+value) || value === '0' || value === '.') {
     mainDisplayValue += value;
     mainDisplayScreen.textContent = mainDisplayValue;
+  } else if (value === '-') {  // Makes the '-' turn the number into negative or use '-' into an operator
+    if(Number(mainDisplayValue[mainDisplayValue.length - 1]) || mainDisplayValue[mainDisplayValue.length - 1] === '0') {
+      mainDisplayValue += ` ${value} `;
+      mainDisplayScreen.textContent = mainDisplayValue;
+    } else {
+      mainDisplayValue += `${value}`;
+      mainDisplayScreen.textContent = mainDisplayValue;
+    }
   } else if (value === '=') {
     if (mainDisplayValue.endsWith(' ')) {
       mainDisplayValue += `${value}`;
@@ -121,8 +129,16 @@ function toggleDotButtonStatus(status) {
 }
 
 function convertToRPN(mainDisplayValue) {
+
   equationArray = `( ${mainDisplayValue} )`.split(' ');
-  equationArray.splice(equationArray.length - 2, 1);
+  
+  for (let i = 0; i < equationArray.length; i++) {  // Makes (x)(y) become (x) x (y)
+    if (equationArray[i] === ')' && equationArray[i + 1] === '(') {
+      equationArray.splice(i + 1, 0, 'x');
+    }
+  }
+
+  equationArray.splice(equationArray.length - 2, 1);  // Removes the '=' from the equation
 
   for (let index of equationArray) {
     if (index === '(') {
