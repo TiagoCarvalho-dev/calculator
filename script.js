@@ -24,6 +24,13 @@ function handleButtonClicks(buttonValue) {
       calculateEquation(rpnEquationArray);
       finalResultStack.length === 1 ? prepareNextEquation(finalResult): equationNotValid();
       break;
+    case (buttonValue === 'sound'):
+      document.querySelectorAll('#calculatorButtons button').forEach(node => {
+        node.addEventListener('click', () => {
+        playAudio(node.textContent);
+        });
+      });
+      break;   
     case (buttonValue === 'ON/OFF'):
       mainDisplayScreen.textContent === '' ? turnOnOff('ON') : turnOnOff('OFF');
       break;
@@ -44,6 +51,22 @@ function handleButtonClicks(buttonValue) {
         changeMainDisplayValue(buttonValue);
         toggleDotButtonStatus('active');
       }
+  }
+}
+
+function playAudio(element) {
+  if (element === '=') {
+    document.getElementById('register').currentTime = 0;
+    document.getElementById('register').play();
+  } else if (element === 'AC' || element === 'C') {
+    document.getElementById('cancel').currentTime = 0;
+    document.getElementById('cancel').play();
+  } else if (element === 'ON/OFF') {
+    document.getElementById('close').currentTime = 0;
+    document.getElementById('close').play();
+  } else {
+    document.getElementById('confirm').currentTime = 0;
+    document.getElementById('confirm').play();
   }
 }
 
@@ -92,7 +115,7 @@ function prepareNextEquation(finalResultValue) {
 function equationNotValid() {
   operationHistoryScreen.textContent = '';
   mainDisplayScreen.textContent = 'Not a valid equation';
-  setTimeout(clearAllData, 3000);
+  setTimeout(clearAllData, 2000);
 }
 
 function clearAllData() {
