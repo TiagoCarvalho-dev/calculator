@@ -279,23 +279,3 @@ function squareRoot(a) {
 function power(a, b) {
   return operationResult = a ** b;
 }
-
-// Adds Keyboard and Sound functionality
-
-window.addEventListener('keydown', event => {
-  playSound(event);
-  keyPressed(event);
-});
-
-function playSound(event) {
-  const audio = document.querySelector(`audio[data-key='${event.keyCode}']`);
-  if (!audio) return;
-  audio.currentTime = 0;
-  audio.play();
-}
-
-function keyPressed (event) {
-  const key = document.querySelector(`.key[data-key='${event.keyCode}']`);
-  key.classList.add('pressed');
-  setTimeout(() => key.classList.remove('pressed'), 200);
-}

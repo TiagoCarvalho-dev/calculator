@@ -112,17 +112,12 @@ body {
   background-color: red;
 }
 
-.key {
+button {
   height: 90px;
   width: 90px;
   margin: auto;
   padding: 0;
   font-size: 40px;
-  transition: all 1s;
-}
-
-.pressed {
-  border-color: red;
 }
 
 #footer {
