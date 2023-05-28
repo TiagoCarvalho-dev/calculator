@@ -132,9 +132,9 @@ function convertToRPN(mainDisplayValue) {
 
   equationArray = `( ${mainDisplayValue} )`.split(' ');
   
-  for (let i = 0; i < equationArray.length; i++) {  // Makes (x)(y) become (x) x (y)
-    if (equationArray[i] === ')' && equationArray[i + 1] === '(') {
-      equationArray.splice(i + 1, 0, 'x');
+  for (let i = 0; i < equationArray.length; i++) {  // Makes (x)(y) become (x) * (y) and x (y + z) become x * (y + z)
+    if (equationArray[i] === '(' && (equationArray[i - 1] === ')' || Number(equationArray[i - 1]) || equationArray[i - 1] === '0')) {
+      equationArray.splice(i, 0, 'x');
     }
   }
 
