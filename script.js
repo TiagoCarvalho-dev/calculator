@@ -18,10 +18,10 @@ function handleButtonClicks(buttonValue) {
   switch (true) {
     case (buttonValue === '='):
       changeMainDisplayValue(buttonValue);
-      changeOperationHistoryValue();
+      operationHistoryScreen.textContent = mainDisplayValue;
       convertToRPN(mainDisplayValue);
       calculateEquation(rpnEquationArray);
-      prepareNextEquation(finalResult);
+      finalResultStack.length === 1 ? prepareNextEquation(finalResult): equationNotValid();
       break;
     case (buttonValue === 'AC'):
       clearAllData();
@@ -30,7 +30,7 @@ function handleButtonClicks(buttonValue) {
       eraseLastInput();
       break;
     default:
-      if (!Number.isInteger(+buttonValue)) {
+      if (!Number(+buttonValue)) {
         changeMainDisplayValue(buttonValue);
       } else {
         changeMainDisplayValue(buttonValue);
@@ -39,7 +39,7 @@ function handleButtonClicks(buttonValue) {
 }
 
 function changeMainDisplayValue(value) {
-  if (Number.isInteger(+value) || value === '.') {
+  if (Number(+value) || value === '0' || value === '.') {
     mainDisplayValue += value;
     mainDisplayScreen.textContent = mainDisplayValue;
   } else if (value === '=') {
@@ -61,12 +61,8 @@ function changeMainDisplayValue(value) {
   }
 }
 
-function changeOperationHistoryValue() {
-  operationHistoryScreen.textContent = mainDisplayValue;
-}
-
 function prepareNextEquation(finalResultValue) {
-  mainDisplayValue = finalResultValue;
+  mainDisplayValue = finalResultValue.toString();
   mainDisplayScreen.textContent = mainDisplayValue;
   equationArray = '';
   rpnEquationArray = '';
@@ -74,6 +70,12 @@ function prepareNextEquation(finalResultValue) {
   operatorStack.length = 0;
   finalResultStack.length = 0;
   toggleOperatorButtonStatus('active');
+}
+
+function equationNotValid() {
+  operationHistoryScreen.textContent = '';
+  mainDisplayScreen.textContent = 'Not a valid equation';
+  setTimeout(clearAllData, 3000);
 }
 
 function clearAllData() {
@@ -123,7 +125,7 @@ function convertToRPN(mainDisplayValue) {
   for (let index of equationArray) {
     if (index === '(') {
       operatorStack.push(index);
-    } else if (Number.isInteger(+index)) {
+    } else if (Number(+index)) {
       numberStack.push(index);
     } else if (index === ')') {
       let i = operatorStack.length - 1;
@@ -171,17 +173,12 @@ function convertToRPN(mainDisplayValue) {
     numberStack.push(operator);
     operatorStack.pop();
   }
-    return rpnEquationArray = numberStack;
+  return rpnEquationArray = numberStack;
 }
 
 function calculateEquation(equationArray) {
-  if (!operatorStack.length === 0) {
-    mainDisplayScreen.textContent = 'Not a valid equation';
-    return setTimeout(clearAllData, 2000);
-  }
-  
   for (let element of equationArray) {
-    if (Number.isInteger(+element)) {
+    if (Number(+element)) {
       finalResultStack.push(+element);
     } else {
       if (element === '√') {
@@ -196,7 +193,7 @@ function calculateEquation(equationArray) {
       } 
     }
   }
-  return finalResult = finalResultStack[0].toString();
+  return finalResult = finalResultStack[0];
 }
 
 function operate(operator, number1, number2) {
