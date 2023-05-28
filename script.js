@@ -21,6 +21,7 @@ function handleButtonClicks(buttonValue) {
       changeOperationHistoryValue();
       convertToRPN(mainDisplayValue);
       calculateEquation(rpnEquationArray);
+      prepareNextEquation(finalResult);
       break;
     case (buttonValue === 'AC'):
       clearAllData();
@@ -64,19 +65,29 @@ function changeOperationHistoryValue() {
   operationHistoryScreen.textContent = mainDisplayValue;
 }
 
-function showResults(finalValue) {
-
+function prepareNextEquation(finalResultValue) {
+  mainDisplayValue = finalResultValue;
+  mainDisplayScreen.textContent = mainDisplayValue;
+  equationArray = '';
+  rpnEquationArray = '';
+  numberStack.length = 0;
+  operatorStack.length = 0;
+  finalResultStack.length = 0;
+  toggleOperatorButtonStatus('active');
 }
 
 function clearAllData() {
-  mainDisplayValue = '';
-  operationHistoryValue = '';
-  equationArray = '';
+  equationArray = undefined;
+  rpnEquationArray = undefined;
   numberStack.length = 0;
   operatorStack.length = 0;
+  finalResultStack.length = 0;
   operationResult = undefined;
+  finalResult = undefined;
+  mainDisplayValue = '';
+  operationHistoryValue = '';
   mainDisplayScreen.textContent = 0;
-  operationHistoryScreen.textContent = 0;
+  operationHistoryScreen.textContent = '';
   toggleOperatorButtonStatus('active');
 }
 
@@ -160,10 +171,15 @@ function convertToRPN(mainDisplayValue) {
     numberStack.push(operator);
     operatorStack.pop();
   }
-  return rpnEquationArray = numberStack;
+    return rpnEquationArray = numberStack;
 }
 
 function calculateEquation(equationArray) {
+  if (!operatorStack.length === 0) {
+    mainDisplayScreen.textContent = 'Not a valid equation';
+    return setTimeout(clearAllData, 2000);
+  }
+  
   for (let element of equationArray) {
     if (Number.isInteger(+element)) {
       finalResultStack.push(+element);
@@ -180,8 +196,7 @@ function calculateEquation(equationArray) {
       } 
     }
   }
-  finalResult = finalResultStack;
-  console.log(finalResult);
+  return finalResult = finalResultStack[0].toString();
 }
 
 function operate(operator, number1, number2) {
