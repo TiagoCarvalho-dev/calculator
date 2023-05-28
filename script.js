@@ -11,6 +11,7 @@ const mainDisplayScreen = document.getElementById('mainDisplayScreen');
 const operationHistoryScreen = document.getElementById('operationHistoryScreen');
 
 document.querySelectorAll('#calculatorButtons button').forEach(node => {
+  node.textContent === 'ON/OFF' ? node.disabled = false : node.disabled = true;
   node.addEventListener('click', () => handleButtonClicks(node.textContent));
 });
 
@@ -22,6 +23,9 @@ function handleButtonClicks(buttonValue) {
       convertToRPN(mainDisplayValue);
       calculateEquation(rpnEquationArray);
       finalResultStack.length === 1 ? prepareNextEquation(finalResult): equationNotValid();
+      break;
+    case (buttonValue === 'ON/OFF'):
+      mainDisplayScreen.textContent === '' ? turnOnOff('ON') : turnOnOff('OFF');
       break;
     case (buttonValue === 'AC'):
       clearAllData();
@@ -117,6 +121,20 @@ function eraseLastInput() {
   } else {
     mainDisplayValue = mainDisplayValue.substring(0, mainDisplayValue.length - 1);
     mainDisplayScreen.textContent = mainDisplayValue;
+  }
+}
+
+function turnOnOff(status) {
+  clearAllData();
+  operationHistoryScreen.textContent = '';
+  if (status === 'ON') {
+    mainDisplayScreen.textContent = 0;
+    document.querySelectorAll('#calculatorButtons button').forEach(node => node.disabled = false);
+  } else {
+    mainDisplayScreen.textContent = '';
+    document.querySelectorAll('#calculatorButtons button').forEach(node => {
+      node.textContent === 'ON/OFF' ? node.disabled = false : node.disabled = true;
+    });
   }
 }
 
