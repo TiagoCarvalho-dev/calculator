@@ -29,11 +29,16 @@ function handleButtonClicks(buttonValue) {
     case (buttonValue === 'C'):
       eraseLastInput();
       break;
+    case (buttonValue === '.'):
+      changeMainDisplayValue(buttonValue);
+      toggleDotButtonStatus('inactive');
+      break;
     default:
-      if (!Number(+buttonValue)) {
+      if (Number(+buttonValue) || buttonValue === '0') {
         changeMainDisplayValue(buttonValue);
       } else {
         changeMainDisplayValue(buttonValue);
+        toggleDotButtonStatus('active');
       }
   }
 }
@@ -69,7 +74,7 @@ function prepareNextEquation(finalResultValue) {
   numberStack.length = 0;
   operatorStack.length = 0;
   finalResultStack.length = 0;
-  toggleOperatorButtonStatus('active');
+  toggleDotButtonStatus('active');
 }
 
 function equationNotValid() {
@@ -90,7 +95,7 @@ function clearAllData() {
   operationHistoryValue = '';
   mainDisplayScreen.textContent = 0;
   operationHistoryScreen.textContent = '';
-  toggleOperatorButtonStatus('active');
+  toggleDotButtonStatus('active');
 }
 
 function eraseLastInput() {
@@ -98,7 +103,6 @@ function eraseLastInput() {
       (mainDisplayValue.endsWith(' ') && mainDisplayValue.length === 2)) {
         mainDisplayValue = '';
         mainDisplayScreen.textContent = 0;
-        toggleOperatorButtonStatus('active');
   } else if (mainDisplayValue.endsWith(' ')) {
     mainDisplayValue = mainDisplayValue.substring(0, mainDisplayValue.length - 2);
     mainDisplayScreen.textContent = mainDisplayValue;
@@ -108,13 +112,11 @@ function eraseLastInput() {
   }
 }
 
-function toggleOperatorButtonStatus(status, buttonValue) {
+function toggleDotButtonStatus(status) {
   if (status === 'active') {
-    document.querySelectorAll('#calculatorButtons button').forEach(node => {
-      node.disabled = false;
-    });
+    document.getElementById('.Button').disabled = false;
   } else {
-    document.getElementById(buttonValue + 'Button').disabled = true;
+    document.getElementById('.Button').disabled = true;
   }
 }
 
