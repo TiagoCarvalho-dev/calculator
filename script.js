@@ -54,31 +54,24 @@ function handleButtonClicks(buttonValue) {
 function toggleAudio() {
   if (document.getElementById('1Button').classList.contains('playAudio')) {
     allButtons.forEach(node => {
-      node.removeEventListener('click', () => playAudio(node.textContent));
+      node.removeEventListener('click', addAudioEventListener);
       node.classList.remove('playAudio');
     });
   } else {
     allButtons.forEach(node => {
-      node.addEventListener('click', () => playAudio(node.textContent));
+      node.addEventListener('click', addAudioEventListener);
       node.classList.add('playAudio');
     });
   }
 }
 
-function playAudio(element) {
-  if (element === '=') {
-    document.getElementById('register').currentTime = 0;
-    document.getElementById('register').play();
-  } else if (element === 'AC' || element === 'C') {
-    document.getElementById('cancel').currentTime = 0;
-    document.getElementById('cancel').play();
-  } else if (element === 'ON/OFF') {
-    document.getElementById('close').currentTime = 0;
-    document.getElementById('close').play();
-  } else {
-    document.getElementById('confirm').currentTime = 0;
-    document.getElementById('confirm').play();
-  }
+function addAudioEventListener() {
+  playAudio();
+}
+
+function playAudio() {
+  document.getElementById('confirm').currentTime = 0;
+  document.getElementById('confirm').play();
 }
 
 function changeMainDisplayValue(value) {
