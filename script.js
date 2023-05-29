@@ -113,9 +113,13 @@ function prepareNextEquation(finalResultValue) {
 }
 
 function equationNotValid() {
+  document.querySelectorAll('#calculatorButtons button').forEach(node => node.disabled = true);
   operationHistoryScreen.textContent = '';
   mainDisplayScreen.textContent = 'Not a valid equation';
-  setTimeout(clearAllData, 2000);
+  setTimeout(() => {
+    document.querySelectorAll('#calculatorButtons button').forEach(node => node.disabled = false);
+    clearAllData();
+  }, 2000);
 }
 
 function clearAllData() {
@@ -291,7 +295,6 @@ function multiplication(a, b) {
 }
 
 function division(a, b) {
-  if (b === 0) return operationResult = undefined;
   return operationResult = a / b;
 }
 
