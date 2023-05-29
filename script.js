@@ -9,8 +9,9 @@ let mainDisplayValue = '';
 let operationHistoryValue = '';
 const mainDisplayScreen = document.getElementById('mainDisplayScreen');
 const operationHistoryScreen = document.getElementById('operationHistoryScreen');
+const allButtons = document.querySelectorAll('#calculatorButtons button');
 
-document.querySelectorAll('#calculatorButtons button').forEach(node => {
+allButtons.forEach(node => {
   node.textContent === 'ON/OFF' ? node.disabled = false : node.disabled = true;
   node.addEventListener('click', () => handleButtonClicks(node.textContent));
 });
@@ -25,11 +26,7 @@ function handleButtonClicks(buttonValue) {
       finalResultStack.length === 1 ? prepareNextEquation(finalResult): equationNotValid();
       break;
     case (buttonValue === 'sound'):
-      document.querySelectorAll('#calculatorButtons button').forEach(node => {
-        node.addEventListener('click', () => {
-        playAudio(node.textContent);
-        });
-      });
+      toggleAudio();
       break;   
     case (buttonValue === 'ON/OFF'):
       mainDisplayScreen.textContent === '' ? turnOnOff('ON') : turnOnOff('OFF');
@@ -51,6 +48,20 @@ function handleButtonClicks(buttonValue) {
         changeMainDisplayValue(buttonValue);
         toggleDotButtonStatus('active');
       }
+  }
+}
+
+function toggleAudio() {
+  if (document.getElementById('1Button').classList.contains('playAudio')) {
+    allButtons.forEach(node => {
+      node.removeEventListener('click', () => playAudio(node.textContent));
+      node.classList.remove('playAudio');
+    });
+  } else {
+    allButtons.forEach(node => {
+      node.addEventListener('click', () => playAudio(node.textContent));
+      node.classList.add('playAudio');
+    });
   }
 }
 
@@ -113,11 +124,11 @@ function prepareNextEquation(finalResultValue) {
 }
 
 function equationNotValid() {
-  document.querySelectorAll('#calculatorButtons button').forEach(node => node.disabled = true);
+  allButtons.forEach(node => node.disabled = true);
   operationHistoryScreen.textContent = '';
   mainDisplayScreen.textContent = 'Not a valid equation';
   setTimeout(() => {
-    document.querySelectorAll('#calculatorButtons button').forEach(node => node.disabled = false);
+    allButtons.forEach(node => node.disabled = false);
     clearAllData();
   }, 2000);
 }
@@ -156,10 +167,10 @@ function turnOnOff(status) {
   operationHistoryScreen.textContent = '';
   if (status === 'ON') {
     mainDisplayScreen.textContent = 0;
-    document.querySelectorAll('#calculatorButtons button').forEach(node => node.disabled = false);
+    allButtons.forEach(node => node.disabled = false);
   } else {
     mainDisplayScreen.textContent = '';
-    document.querySelectorAll('#calculatorButtons button').forEach(node => {
+    allButtons.forEach(node => {
       node.textContent === 'ON/OFF' ? node.disabled = false : node.disabled = true;
     });
   }
