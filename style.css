@@ -1,5 +1,5 @@
 body {
-  background-color: grey;
+  background-color: rgb(36, 36, 36);
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -12,11 +12,13 @@ body {
 #calculatorBody {
   display: flex;
   flex-direction: column;
+  border: solid 3px rgb(150, 136, 36);
+  border-radius: 10px;
   margin: auto;
   padding: 0;
   width: 880px;
   height: 430px;
-  background-color: blue;
+  background-image: linear-gradient(rgb(61, 61, 61), rgb(34, 34, 34));
 }
 
 #brandContainer {
@@ -26,9 +28,8 @@ body {
   margin: 0;
   padding: 0 0 0 20px;
   height: 50px;
-  font-family: 'Pacifico', cursive;
   font-size: 20px;
-  background-color: lightgreen;
+  border-bottom: solid 2px rgb(80, 80, 80);
 }
 
 #brandContainer > p {
@@ -44,7 +45,7 @@ body {
   height: 70px;
   justify-content: center;
   align-items: end;
-  background-color: lightblue;
+  border-bottom: solid 2px rgb(80, 80, 80);
 }
 
 #operationHistoryScreen {
@@ -65,7 +66,6 @@ body {
   height: 310px;
   margin: 0;
   padding: 0;
-  background-color: white;
 }
 
 #functionsButtonRow {
@@ -73,7 +73,6 @@ body {
   height: 115px;
   margin: 0;
   padding: 0;
-  background-color: yellow;
 }
 
 #complexOperatorsRow {
@@ -81,7 +80,6 @@ body {
   height: 70px;
   margin: 0;
   padding: 0;
-  background-color: pink;
 }
 
 #numbersAndOperators {
@@ -89,7 +87,6 @@ body {
   height: 260px;
   margin: 0;
   padding: 0;
-  border: solid 2px green;
 }
 
 #numberButtons {
@@ -98,34 +95,37 @@ body {
   margin: 0;
   padding: 0;
   height: 180px;
-  width: 657px;
-  background-color: purple;
+  width: 667px;
 }
 
 #operatorButtons {
   display: flex;
   flex-direction: column;
   height: 180px;
-  width: 220px;
+  width: 221px;
   margin: 0;
   padding: 0;
-  background-color: red;
 }
 
 #functionsButtonRow > button {
-  height: 70px;
-  width: 70px;
-  margin: auto;
+  height: 65px;
+  width: 65px;
   padding: 0;
   font-size: 28px;
+  background-image: linear-gradient(rgb(116, 116, 116), rgb(31, 31, 31));
+  border: solid 0.5px black;
+  border-radius: 10px;
 }
 
 button {
-  height: 37px;
+  height: 30px;
   width: 200px;
   margin: auto;
   padding: 0;
   font-size: 28px;
+  background-image: linear-gradient(rgb(116, 116, 116), rgb(31, 31, 31));
+  border: solid 0.5px black;
+  border-radius: 20px;
 }
 
 #footer {
@@ -136,4 +136,5 @@ button {
   align-items: center;
   font-size: 18px;
   text-align: center;
+  color: rgb(224, 200, 18);
 }
