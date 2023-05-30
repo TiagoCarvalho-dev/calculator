@@ -6,13 +6,13 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'PT Serif', serif;
 }
 
 #calculatorBody {
   display: flex;
   flex-direction: column;
-  border: solid 3px rgb(150, 136, 36);
+  border: solid 2.7px rgb(124, 113, 28);
   border-radius: 10px;
   margin: auto;
   padding: 0;
@@ -32,8 +32,9 @@ body {
   border-bottom: solid 2px rgb(80, 80, 80);
 }
 
-#brandContainer > p {
-  margin-left: 30px;
+#turnONOFFInstruction {
+  margin-right: 20px;
+  margin-left: auto;
 }
 
 #display {
@@ -46,18 +47,20 @@ body {
   justify-content: center;
   align-items: end;
   border-bottom: solid 2px rgb(80, 80, 80);
+  color:rgb(253, 245, 189);
 }
 
 #operationHistoryScreen {
   margin: 0;
   padding: 0;
-  font-size: 32px;
+  font-size: 19px;
 }
 
 #mainDisplayScreen {
   margin: 0;
   padding: 0;
-  font-size: 32px;
+  font-size: 30px;
+  color: rgb(224, 200, 18);
 }
 
 #calculatorButtons {
@@ -112,7 +115,7 @@ body {
   width: 65px;
   padding: 0;
   font-size: 28px;
-  background-image: linear-gradient(rgb(116, 116, 116), rgb(31, 31, 31));
+  background-image: linear-gradient(rgb(175, 74, 74), rgb(92, 7, 7));
   border: solid 0.5px black;
   border-radius: 10px;
 }
@@ -122,10 +125,13 @@ button {
   width: 200px;
   margin: auto;
   padding: 0;
-  font-size: 28px;
+  font-size: 25px;
   background-image: linear-gradient(rgb(116, 116, 116), rgb(31, 31, 31));
   border: solid 0.5px black;
   border-radius: 20px;
+  color: rgb(226, 221, 221);
+  line-height: 0px;
+  font-family: 'PT Serif', serif;
 }
 
 #footer {

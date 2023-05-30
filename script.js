@@ -27,9 +27,14 @@ function handleButtonClicks(buttonValue) {
       break;
     case (buttonValue === 'sound'):
       toggleAudio();
-      break;   
+      break;
     case (buttonValue === 'ON/OFF'):
-      mainDisplayScreen.textContent === '' ? turnOnOff('ON') : turnOnOff('OFF');
+      toggleAudio();
+      if (mainDisplayScreen.textContent === '') {
+        turnOnOff('ON');
+      } else {
+        turnOnOff('OFF');
+      }
       break;
     case (buttonValue === 'AC'):
       clearAllData();
