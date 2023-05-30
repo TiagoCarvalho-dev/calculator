@@ -12,8 +12,8 @@ const operationHistoryScreen = document.getElementById('operationHistoryScreen')
 const allButtons = document.querySelectorAll('#calculatorButtons button');
 
 allButtons.forEach(node => {
-  node.textContent === 'ON/OFF' ? node.disabled = false : node.disabled = true;
-  node.addEventListener('click', () => handleButtonClicks(node.textContent));
+  node.id === 'ON/OFF' ? node.disabled = false : node.disabled = true;
+  node.addEventListener('click', () => handleButtonClicks(node.id));
 });
 
 function handleButtonClicks(buttonValue) {
@@ -52,7 +52,7 @@ function handleButtonClicks(buttonValue) {
 }
 
 function toggleAudio() {
-  if (document.getElementById('1Button').classList.contains('playAudio')) {
+  if (document.getElementById('1').classList.contains('playAudio')) {
     allButtons.forEach(node => {
       node.removeEventListener('click', addAudioEventListener);
       node.classList.remove('playAudio');
@@ -164,16 +164,16 @@ function turnOnOff(status) {
   } else {
     mainDisplayScreen.textContent = '';
     allButtons.forEach(node => {
-      node.textContent === 'ON/OFF' ? node.disabled = false : node.disabled = true;
+      node.id === 'ON/OFF' ? node.disabled = false : node.disabled = true;
     });
   }
 }
 
 function toggleDotButtonStatus(status) {
   if (status === 'active') {
-    document.getElementById('.Button').disabled = false;
+    document.getElementById('.').disabled = false;
   } else {
-    document.getElementById('.Button').disabled = true;
+    document.getElementById('.').disabled = true;
   }
 }
 
