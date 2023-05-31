@@ -314,3 +314,20 @@ function squareRoot(a) {
 function power(a, b) {
   return operationResult = a ** b;
 }
+
+window.addEventListener('keydown', keyButton => {  // ADDS KEYBOARD FUNCTIONALITY
+  if (keyButton.key === '0' || keyButton.key === '.' ||
+      keyButton.key === '-'|| keyButton.key === 'x') return handleButtonClicks(keyButton.key);
+  if (keyButton.key === '=') return handleButtonClicks('+');
+  if (keyButton.key === '/') return handleButtonClicks('÷');
+  if (keyButton.key === '[') return handleButtonClicks('(');
+  if (keyButton.key === ']') return handleButtonClicks(')');
+  if (keyButton.key === 'o') return handleButtonClicks('√');
+  if (keyButton.key === 'p') return handleButtonClicks('^');
+  if (keyButton.key === 'Enter') return handleButtonClicks('=');
+  if (keyButton.key === 'Delete') return handleButtonClicks('AC');
+  if (keyButton.key === 'Backspace') return handleButtonClicks('C');
+  if (keyButton.key === 'Escape') return handleButtonClicks('ON/OFF');
+  if (!Number(keyButton.key)) return;
+  handleButtonClicks(keyButton.key);
+});
